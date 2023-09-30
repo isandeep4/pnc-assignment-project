@@ -1,0 +1,36 @@
+.content {
+    padding-top: 10px;
+}
+.row {
+    display: flex;
+    mat-form-field {
+        width: 100%;
+    }
+}
+.login-container {
+    margin-top: 50px;
+    width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+  .login-content {
+    width: 400px;
+    display: block;
+    margin: 0 auto;
+  }  
+  .login-toolbar {
+    justify-content: center;
+  }
+  .socialMediaFlex{
+    display:flex;
+    justify-content: space-around;
+  }
+  .submitButton {
+    width: 50%;
+    height: 50px;
+    margin: 15px;
+  }
+  .padding-left {
+    padding-left: 10px;
+  }

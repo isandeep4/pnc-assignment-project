@@ -1,0 +1,52 @@
+<div class="login-container">
+    <div class="login-content">
+    <mat-toolbar class="login-toolbar" color="primary">REGISTER</mat-toolbar>
+<mat-card>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+        <div mat-dialog-content class="content">
+            <div class="row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Full Name</mat-label>
+                    <input matInput type="text" formControlName="fullName">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Email</mat-label>
+                    <input matInput type="email" placeholder="abc@gmail.com" formControlName="email">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Password</mat-label>
+                    <input matInput type="text" placeholder="*****" formControlName="password">
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-form-field appearance="fill">
+                    <mat-label>Date Of Birth</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="dob">
+                    <mat-hint>MM/DD/YYYY</mat-hint>
+                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="row">
+                <mat-radio-group aria-label="select an option" formControlName="gender" class="padding-left">
+                    <mat-label>Gender</mat-label>
+                    <mat-radio-button value="male">Male</mat-radio-button>
+                    <mat-radio-button value="female">Female</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="socialMediaFlex">
+                <button class="submitButton" [disabled]="registerForm.invalid" type="submit" mat-raised-button color="primary">Submit</button>
+            </div>
+            
+        </div>
+    </form>
+</mat-card>
+</div>
+</div>
+
+
+
