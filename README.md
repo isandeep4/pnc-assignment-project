@@ -4,7 +4,11 @@
 - Configured the App with Angular material  
 - Routing of App
 - User Registration Page
-- 
+- auth service & auth guard
+    - injected auth service for validation
+    - 
+- Created Profile Page
+- Integrated fetch User details api
 
 
 

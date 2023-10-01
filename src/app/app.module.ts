@@ -16,11 +16,14 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatButtonModule} from '@angular/material/button';
+import { HttpClientModule } from '@angular/common/http';
+import { ProfileComponent } from './account/profile/profile.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    RegisterComponent
+    RegisterComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,7 @@ import {MatButtonModule} from '@angular/material/button';
     MatDatepickerModule,
     MatRadioModule,
     MatNativeDateModule,
-    MatButtonModule
+    MatButtonModule,HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
