@@ -32,10 +32,12 @@ export class ProfileComponent implements OnInit{
     this.authService.getUserDetails().subscribe((response: User)=>{
       this.userDetails = response;        
       this.setLoading(false);
-    })
+    });
   }
   onLogOut() {
     this.router.navigate(['/']);
+    // set the authenticatedUser to false only when log out button clicked
+    this.authService.setAuthenticated(false);
   }
   setLoading(loading: boolean) {
     this.loading = loading;

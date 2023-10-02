@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -24,7 +24,7 @@ describe('AuthService', () => {
     expect(service).toBeTruthy();
   });
   it('should return authenticated status', () => {
-    expect(service.isAuthenticated()).toBe(false)
+    expect(service.isAuthenticatedSubject()).toBe(new BehaviorSubject(false))
   });
   it('should return user details', () => {
     service.getUserDetails().subscribe((data)=>{

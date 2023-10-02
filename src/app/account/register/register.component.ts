@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup , FormControl,Validators,FormGroupDirective, FormBuilder} from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
+import { Subscriber, catchError, tap, throwError } from 'rxjs';
 
 export interface UserForm{
   username: any,
@@ -67,11 +68,27 @@ export class RegisterComponent implements OnInit{
 
     this.formValues = {username, email, password, dob, gender};
 
-    // we can call the post API passing payload this registraion form values and save in DB. 
-    // for now we are not writing saving to DB logic since we have only get API.
-    this.authService.registerUser(this.formValues);
-    this.router.navigate(['profile']);
-    
+    // call the post API here passing form values. In this case it's a get API to check the user successfully registers 
+    this.authService.registerUser(this.formValues)
+    .pipe(
+      tap((response: any) => {
+        // Assuming the registration API returns a success response
+        if (response.success) {
+          // Registration was successful, set authentication to true
+          this.authService.setAuthenticated(true);
+          // Redirect to the profile page 
+          this.router.navigate(['/profile']);
+        } else {
+          // Handle registration error, if needed
+        }
+      }),
+      catchError((error: any) => {
+        // Handle API call error
+        // You can also rethrow the error here if needed
+        return throwError(error);
+      })
+    )
+    .subscribe(); // Subscribe to start the observable
   }
 
 }
