@@ -10,8 +10,13 @@
 - Created Profile Page
 - Integrated fetch User details api
 
+- Profile Page
+    - Header
+    - Main Container
+    - Simple Loader when no data received
 
-
+- Wrote Test Cases 
+ 
 # Features
 - Sign Up
     - Sign Up Form

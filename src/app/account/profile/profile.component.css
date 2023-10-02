@@ -1,0 +1,15 @@
+.style-toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+.card-class {
+    margin: 20px;
+    width: 40%;
+    display: flex;
+   align-content: center;
+   flex-wrap: wrap;
+}
+.container-class {
+    display: flex;
+    justify-content: center;
+}

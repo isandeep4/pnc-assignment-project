@@ -3,6 +3,14 @@ import { FormGroup , FormControl,Validators,FormGroupDirective, FormBuilder} fro
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
 
+export interface UserForm{
+  username: any,
+  email: any,
+  password: any,
+  dob: any,
+  gender: any
+}
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -18,6 +26,7 @@ export class RegisterComponent implements OnInit{
       gender: '',
   });
   fieldRequired: string = "This field is required";
+  formValues!:UserForm;
 
   ngOnInit(): void {
     this.createForm();
@@ -49,16 +58,18 @@ export class RegisterComponent implements OnInit{
     const validation = this.registerForm.get(input)!.invalid && (this.registerForm.get(input)!.dirty || this.registerForm.get(input)!.touched);
     return validation;
   }
-  onSubmit(registerForm:FormGroup, formDirective:FormGroupDirective): void {
+  onSubmit(registerForm:FormGroup): void {
     const username = registerForm.get('userName');
     const email = registerForm.get('email');
     const password = registerForm.get('password');
     const dob = registerForm.get('dob');
     const gender = registerForm.get('gender');
 
+    this.formValues = {username, email, password, dob, gender};
+
     // we can call the post API passing payload this registraion form values and save in DB. 
     // for now we are not writing saving to DB logic since we have only get API.
-    this.authService.registerUser();
+    this.authService.registerUser(this.formValues);
     this.router.navigate(['profile']);
     
   }
