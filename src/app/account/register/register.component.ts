@@ -3,6 +3,7 @@ import { FormGroup , FormControl,Validators,FormGroupDirective, FormBuilder} fro
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
 import { Subscriber, catchError, tap, throwError } from 'rxjs';
+import { emailPatternMsg, emailRequiredMsg, emailregex, passwordCheck, passwordRequiredMsg, passwordRequirementMsg } from 'src/app/constants';
 
 export interface UserForm{
   username: any,
@@ -33,7 +34,6 @@ export class RegisterComponent implements OnInit{
     this.createForm();
   }
   createForm(){
-    let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     this.userRegistrationForm = new FormGroup({
       'userName': new FormControl(null,[Validators.required]),
       'email': new FormControl(null,[Validators.required, Validators.pattern(emailregex)]),
@@ -43,20 +43,21 @@ export class RegisterComponent implements OnInit{
     })
   }
   emaiErrors() {
-    return this.userRegistrationForm.get('email')!.hasError('required') ? 'This field is required' :
-      this.userRegistrationForm.get('email')!.hasError('pattern') ? 'Not a valid emailaddress' :''
+    return this.userRegistrationForm.get('email')!.hasError('required') ? emailRequiredMsg:
+      this.userRegistrationForm.get('email')!.hasError('pattern') ? emailPatternMsg :''
   }
   checkPassword(control:any){
     let enteredPassword = control.value
-    let passwordCheck = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
     return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
   }
   getErrorPassword() {
-    return this.userRegistrationForm.get('password')!.hasError('required') ? 'This field is required (The password must be at least six characters, one uppercase letter and one number)' :
-      this.userRegistrationForm.get('password')!.hasError('requirements') ? 'Password needs to be at least six characters, one uppercase letter and one number' : '';
+    return this.userRegistrationForm.get('password')!.hasError('required') ? passwordRequiredMsg :
+      this.userRegistrationForm.get('password')!.hasError('requirements') ? passwordRequirementMsg : '';
   }
   checkValidation(input: string){
-    const validation = this.userRegistrationForm.get(input)!.invalid && (this.userRegistrationForm.get(input)!.dirty || this.userRegistrationForm.get(input)!.touched);
+    const validation = this.userRegistrationForm.get(input)!.invalid && 
+     (this.userRegistrationForm.get(input)!.dirty 
+      || this.userRegistrationForm.get(input)!.touched);
     return validation;
   }
   onSubmit(registerForm:FormGroup): void {

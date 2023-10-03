@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { AuthService } from './auth.service';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { BehaviorSubject, of } from 'rxjs';
+import { registerApiUrl } from '../constants';
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -35,7 +36,7 @@ describe('AuthService', () => {
     };
 
     service.registerUser(form).subscribe();
-    const req = httpTestingController.expectOne(service.registerApiUrl);
+    const req = httpTestingController.expectOne(registerApiUrl);
     expect(req.request.method).toBe('GET');
   });
   it('should return authenticated status', () => {
