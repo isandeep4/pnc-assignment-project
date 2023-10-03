@@ -19,7 +19,7 @@ export interface UserForm{
 })
 export class RegisterComponent implements OnInit{
   constructor(private _fb:FormBuilder, private authService: AuthService, private router: Router){}
-  registerForm: FormGroup = this._fb.group({
+  userRegistrationForm: FormGroup = this._fb.group({
       userName: '',
       email: '',
       password: '',
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit{
   }
   createForm(){
     let emailregex: RegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    this.registerForm = new FormGroup({
+    this.userRegistrationForm = new FormGroup({
       'userName': new FormControl(null,[Validators.required]),
       'email': new FormControl(null,[Validators.required, Validators.pattern(emailregex)]),
       'password': new FormControl(null, [Validators.required, this.checkPassword]),
@@ -43,8 +43,8 @@ export class RegisterComponent implements OnInit{
     })
   }
   emaiErrors() {
-    return this.registerForm.get('email')!.hasError('required') ? 'This field is required' :
-      this.registerForm.get('email')!.hasError('pattern') ? 'Not a valid emailaddress' :''
+    return this.userRegistrationForm.get('email')!.hasError('required') ? 'This field is required' :
+      this.userRegistrationForm.get('email')!.hasError('pattern') ? 'Not a valid emailaddress' :''
   }
   checkPassword(control:any){
     let enteredPassword = control.value
@@ -52,11 +52,11 @@ export class RegisterComponent implements OnInit{
     return (!passwordCheck.test(enteredPassword) && enteredPassword) ? { 'requirements': true } : null;
   }
   getErrorPassword() {
-    return this.registerForm.get('password')!.hasError('required') ? 'This field is required (The password must be at least six characters, one uppercase letter and one number)' :
-      this.registerForm.get('password')!.hasError('requirements') ? 'Password needs to be at least six characters, one uppercase letter and one number' : '';
+    return this.userRegistrationForm.get('password')!.hasError('required') ? 'This field is required (The password must be at least six characters, one uppercase letter and one number)' :
+      this.userRegistrationForm.get('password')!.hasError('requirements') ? 'Password needs to be at least six characters, one uppercase letter and one number' : '';
   }
   checkValidation(input: string){
-    const validation = this.registerForm.get(input)!.invalid && (this.registerForm.get(input)!.dirty || this.registerForm.get(input)!.touched);
+    const validation = this.userRegistrationForm.get(input)!.invalid && (this.userRegistrationForm.get(input)!.dirty || this.userRegistrationForm.get(input)!.touched);
     return validation;
   }
   onSubmit(registerForm:FormGroup): void {
@@ -79,13 +79,12 @@ export class RegisterComponent implements OnInit{
           // Redirect to the profile page 
           this.router.navigate(['/profile']);
         } else {
-          // Handle registration error, if needed
+          // Handle registration error
+          this.router.navigate(['/']);
         }
       }),
       catchError((error: any) => {
-        // Handle API call error
-        // You can also rethrow the error here if needed
-        return throwError(error);
+        return throwError(() => error);
       })
     )
     .subscribe(); // Subscribe to start the observable

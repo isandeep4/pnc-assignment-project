@@ -8,13 +8,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { AuthService } from 'src/app/auth/auth.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 describe('ProfileComponent', () => {
   let component: ProfileComponent;
   let fixture: ComponentFixture<ProfileComponent>;
+  let router: Router;
 
   let mockAuthService = {
-    getUserDetails: (): any => {return { subscribe: () => {} }}
+    authenticatedUser:false,
+    getUserDetails: (): any => {return { subscribe: () => {} }},
+    setAuthenticated: (): any => { }
   }
 
   beforeEach(() => {
@@ -28,6 +32,7 @@ describe('ProfileComponent', () => {
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    router = TestBed.inject(Router);
   });
 
   it('should create', () => {
@@ -42,5 +47,11 @@ describe('ProfileComponent', () => {
     }))
     component.ngOnInit();
     expect(mySpy).toHaveBeenCalledTimes(1);
+  });
+  it('should redirect to home page on logout', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    const setAuthenticatedSpy = spyOn(mockAuthService, 'setAuthenticated');
+    component.onLogOut();
+    expect(navigateSpy).toHaveBeenCalledWith(['/']);
   })
 });

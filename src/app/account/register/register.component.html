@@ -2,7 +2,7 @@
     <div class="login-content">
     <mat-toolbar class="login-toolbar" color="primary">REGISTER</mat-toolbar>
 <mat-card>
-    <form [formGroup]="registerForm" #formDirective="ngForm" (ngSubmit)="onSubmit(registerForm)">
+    <form [formGroup]="userRegistrationForm" #formDirective="ngForm" (ngSubmit)="onSubmit(userRegistrationForm)">
         <div mat-dialog-content class="content">
             <div class="row">
                 <mat-form-field appearance="fill">
@@ -50,7 +50,7 @@
                 </mat-radio-group>
             </div>
             <div class="socialMediaFlex">
-                <button class="submitButton" [disabled]="registerForm.invalid" type="submit" mat-raised-button color="primary">Submit</button>
+                <button class="submitButton" [disabled]="userRegistrationForm.invalid" type="submit" mat-raised-button color="primary">Submit</button>
             </div>
             
         </div>

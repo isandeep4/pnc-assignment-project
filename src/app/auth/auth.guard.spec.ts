@@ -4,16 +4,16 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthGuard } from './auth.guard';
 import { AuthService } from './auth.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 describe('authGuard', () => {
-  let guard: AuthGuard;
+  let authGuard: AuthGuard;
   let authService: AuthService;
   let router: Router;
   let routeMock: any = { snapshot: {}};
   let routeStateMock: any = { snapshot: {}};
   let mockAuthService = {
-    isAuthenticated: (): any => {}
+    isAuthenticatedSubject: () => new BehaviorSubject<boolean>(false)
   }
 
   beforeEach(() => {
@@ -21,16 +21,22 @@ describe('authGuard', () => {
       imports: [HttpClientTestingModule],
       providers: [{ provide: AuthService, useValue: mockAuthService  }],
     });
-    guard = TestBed.inject(AuthGuard);
+    authGuard = TestBed.inject(AuthGuard);
     authService = TestBed.inject(AuthService);
     router = TestBed.inject(Router);
     
   });
+  it('should allow access when isAuthenticated returns true', async () => {
+    spyOn(authService, 'isAuthenticatedSubject').and.returnValue(new BehaviorSubject(true));
+    const canActivate = await authGuard.canActivate(routeMock, routeStateMock);
+    expect(canActivate).toEqual(true);
+  });
+  it('should block access and navigate to register when isAuthenticated returns false', async () => {
+    spyOn(authService, 'isAuthenticatedSubject').and.returnValue(new BehaviorSubject(false));
+    spyOn(router, 'navigate');
+    const canActivate = await authGuard.canActivate(routeMock, routeStateMock);
+    expect(canActivate).toEqual(false);
+    expect(router.navigate).toHaveBeenCalledWith(['/']);
+  });
 
-  it('should redirect to login', () => {
-    const navigateSpy = spyOn(router, 'navigate');
-    authService.authenticatedUser = false;
-    guard.canActivate(routeMock, routeStateMock).subscribe();
-    expect(navigateSpy).toHaveBeenCalledWith(['/']);
-});
 });

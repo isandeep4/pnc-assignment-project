@@ -15,24 +15,12 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
   let fixture: ComponentFixture<RegisterComponent>;
   let router: Router;
-  const authService = {
-    savedForm: {
-      username: "isandeep",
-      email: "test@gmail.com",
-      password: "Sandy@12345",
-      dob: '12-12-2023',
-      gender: 'Male',
-    }, 
-    registerUser(){
-      return of(false);
-    }
-  }
   let authServiceStub:any;
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -42,7 +30,7 @@ describe('RegisterComponent', () => {
         RouterTestingModule.withRoutes([])],
       declarations: [RegisterComponent],
       providers: [
-        { provide: AuthService, useValue: authService  }
+        AuthService
       ],
     });
     fixture = TestBed.createComponent(RegisterComponent);
@@ -57,10 +45,10 @@ describe('RegisterComponent', () => {
     expect(component).toBeTruthy();
   });
   it('form invalid when empty', ()=>{
-    expect(component.registerForm.valid).toBeFalsy();
+    expect(component.userRegistrationForm.valid).toBeFalsy();
   });
   it('email field validity', ()=>{
-    let email = component.registerForm.controls['email'];
+    let email = component.userRegistrationForm.controls['email'];
     expect(email.valid).toBeFalsy();
 
     let errors:any = {};
@@ -71,24 +59,29 @@ describe('RegisterComponent', () => {
     errors = email.errors;
     expect(errors['pattern']).toBeTruthy();
   })
-  it('submit a form will store the value', () => {
-    const mySpy = spyOn(authServiceStub , 'registerUser');
+  it('submit a form will call register service', () => {
+    const mySpy = spyOn(authServiceStub , 'registerUser').and.returnValue(of({ success: true }));
     const navigateSpy = spyOn(router, 'navigate');
-    expect(component.registerForm.valid).toBeFalsy();
-    component.registerForm.controls['email'].setValue("test@gmail.com");
-    component.registerForm.controls['userName'].setValue("isandeep");
-    component.registerForm.controls['password'].setValue("Sandy@12345");
-    component.registerForm.controls['dob'].setValue('12-12-2023');
-    component.registerForm.controls['gender'].setValue('Male');
-    component.onSubmit(component.registerForm);
-
+    expect(component.userRegistrationForm.valid).toBeFalsy();
+    component.onSubmit(component.userRegistrationForm);
     expect(mySpy).toHaveBeenCalledTimes(1);
-    expect(authServiceStub.savedForm.username).toBe(component.registerForm.get('userName')?.getRawValue());
   })
 
-  it('should navigate', () => {
+  it('should navigate to profile if the registration successful', () => {
     const navigateSpy = spyOn(router, 'navigate');
-    component.onSubmit(component.registerForm);
-    expect(navigateSpy).toHaveBeenCalledWith(['profile']);
-});
+    const registerUserSpy =  spyOn(authServiceStub, 'registerUser').and.returnValue(of({ success: true }));
+    const setAuthenticatedSpy = spyOn(authServiceStub, 'setAuthenticated');
+    component.onSubmit(component.userRegistrationForm);
+    expect(registerUserSpy).toHaveBeenCalled();
+    expect(setAuthenticatedSpy).toHaveBeenCalledWith(true);
+    expect(navigateSpy).toHaveBeenCalledWith(['/profile']);
+  });
+  it('should handle registration error', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    spyOn(authServiceStub, 'registerUser').and.returnValue(
+      of({ success: false })
+    );
+    component.onSubmit(component.userRegistrationForm);
+    expect(navigateSpy).toHaveBeenCalledWith(['/']);
+  });
 });
