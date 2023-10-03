@@ -27,7 +27,7 @@ export class RegisterComponent implements OnInit{
   constructor(private _fb:FormBuilder, private authService: AuthService, private router: Router){
     this.userRegistrationForm = new FormGroup({
       'userName': new FormControl(null,[Validators.required]),
-      'email': new FormControl(null,[Validators.required, Validators.pattern(emailregex)]),
+      'email': new FormControl(null,[Validators.required, Validators.pattern(emailregex)]), // validators.email is not recognizing pattern
       'password': new FormControl(null, [Validators.required, this.checkPassword]),
       'dob': new FormControl(null, [Validators.required]),
       'gender': new FormControl(null, [Validators.required]),
