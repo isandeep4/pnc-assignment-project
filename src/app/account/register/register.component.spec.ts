@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
+import { emailPatternMsg, emailRequiredMsg, passwordRequiredMsg, passwordRequirementMsg } from 'src/app/constants';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
@@ -83,5 +84,55 @@ describe('RegisterComponent', () => {
     );
     component.onSubmit(component.userRegistrationForm);
     expect(navigateSpy).toHaveBeenCalledWith(['/']);
+  });
+  it('should return emailRequiredMsg when email field is empty', () => {
+    const emailFormControl = component.userRegistrationForm.get('email');
+    emailFormControl!.setValue('');
+    expect(component.emaiErrors()).toEqual(emailRequiredMsg);
+  });
+
+  it('should return emailPatternMsg when email format is invalid', () => {
+    const emailFormControl = component.userRegistrationForm.get('email');
+    emailFormControl!.setValue('invalidemail');
+    expect(component.emaiErrors()).toEqual(emailPatternMsg);
+  });
+
+  it('should return empty string when email format is valid', () => {
+    const emailFormControl = component.userRegistrationForm.get('email');
+    emailFormControl!.setValue('validemail@example.com');
+    expect(component.emaiErrors()).toEqual('');
+  });
+
+  it('should return passwordRequiredMsg when password field is empty', () => {
+    const passwordFormControl = component.userRegistrationForm.get('password');
+    passwordFormControl!.setValue('');
+    expect(component.getErrorPassword()).toEqual(passwordRequiredMsg);
+  });
+
+  it('should return passwordRequirementMsg when password does not meet requirements', () => {
+    const passwordFormControl = component.userRegistrationForm.get('password');
+    passwordFormControl!.setValue('weakpassword');
+    expect(component.getErrorPassword()).toEqual(passwordRequirementMsg);
+  });
+
+  it('should return empty string when password meets requirements', () => {
+    const passwordFormControl = component.userRegistrationForm.get('password');
+    passwordFormControl!.setValue('StrongPassword123');
+    expect(component.getErrorPassword()).toEqual('');
+  });
+
+  it('should return true for checkValidation when input is invalid and dirty or touched', () => {
+    const inputName = 'email';
+    const formControl = component.userRegistrationForm.get(inputName);
+    formControl!.setValue('');
+    formControl!.markAsDirty();
+    expect(component.checkValidation(inputName)).toBeTruthy();
+  });
+
+  it('should return false for checkValidation when input is valid and not dirty or touched', () => {
+    const inputName = 'email';
+    const formControl = component.userRegistrationForm.get(inputName);
+    formControl!.setValue('validemail@example.com');
+    expect(component.checkValidation(inputName)).toBeFalsy();
   });
 });

@@ -19,7 +19,7 @@ export interface User {
 
 export class ProfileComponent implements OnInit{
 
-  userDetails!:User|null;
+  userDetails?:User;
   displayImage:any;
   private loading: boolean = false;
 

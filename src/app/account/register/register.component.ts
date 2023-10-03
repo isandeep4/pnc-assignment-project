@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup , FormControl,Validators,FormGroupDirective, FormBuilder} from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
-import { Subscriber, catchError, tap, throwError } from 'rxjs';
+import { Subject, Subscriber, catchError, takeUntil, tap, throwError } from 'rxjs';
 import { emailPatternMsg, emailRequiredMsg, emailregex, passwordCheck, passwordRequiredMsg, passwordRequirementMsg } from 'src/app/constants';
 
 export interface UserForm{
@@ -19,21 +19,12 @@ export interface UserForm{
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit{
-  constructor(private _fb:FormBuilder, private authService: AuthService, private router: Router){}
-  userRegistrationForm: FormGroup = this._fb.group({
-      userName: '',
-      email: '',
-      password: '',
-      dob: '',
-      gender: '',
-  });
+  userRegistrationForm: FormGroup;
   fieldRequired: string = "This field is required";
   formValues!:UserForm;
+  private ngUnsubscribe = new Subject<void>();
 
-  ngOnInit(): void {
-    this.createForm();
-  }
-  createForm(){
+  constructor(private _fb:FormBuilder, private authService: AuthService, private router: Router){
     this.userRegistrationForm = new FormGroup({
       'userName': new FormControl(null,[Validators.required]),
       'email': new FormControl(null,[Validators.required, Validators.pattern(emailregex)]),
@@ -42,7 +33,11 @@ export class RegisterComponent implements OnInit{
       'gender': new FormControl(null, [Validators.required]),
     })
   }
+  
+  ngOnInit(): void {
+  }
   emaiErrors() {
+    console.log
     return this.userRegistrationForm.get('email')!.hasError('required') ? emailRequiredMsg:
       this.userRegistrationForm.get('email')!.hasError('pattern') ? emailPatternMsg :''
   }
@@ -84,11 +79,17 @@ export class RegisterComponent implements OnInit{
           this.router.navigate(['/']);
         }
       }),
+      takeUntil(this.ngUnsubscribe),
       catchError((error: any) => {
         return throwError(() => error);
       })
     )
     .subscribe(); // Subscribe to start the observable
+  }
+
+  ngOnDestroy() {
+    this.ngUnsubscribe.next();
+    this.ngUnsubscribe.complete();
   }
 
 }
