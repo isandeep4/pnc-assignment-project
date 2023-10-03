@@ -1,6 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  Router,
+  RouterStateSnapshot,
+} from '@angular/router';
 import { RegistrationAuthGuardGuard } from './registration-auth-guard.guard';
 import { AuthService } from './auth.service';
 import { BehaviorSubject } from 'rxjs';
@@ -11,14 +15,17 @@ describe('RegistrationAuthGuardGuard', () => {
   let authService: AuthService;
   let router: Router;
   let mockAuthService = {
-    authenticatedUser:false,
-    isAuthenticatedSubject: (): any => { }
-  }
+    authenticatedUser: false,
+    isAuthenticatedSubject: (): any => {},
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule],
-      providers: [RegistrationAuthGuardGuard, { provide: AuthService, useValue: mockAuthService  }],
+      providers: [
+        RegistrationAuthGuardGuard,
+        { provide: AuthService, useValue: mockAuthService },
+      ],
     });
 
     guard = TestBed.inject(RegistrationAuthGuardGuard);

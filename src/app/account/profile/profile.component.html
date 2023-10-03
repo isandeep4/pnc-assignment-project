@@ -1,34 +1,35 @@
 <mat-toolbar color="primary" class="style-toolbar">
-    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
-      <mat-icon>menu</mat-icon>
-    </button>
-    <span>My Profile</span>
-    <button (click)="onLogOut()">
-        <i class="material-icons">account_circle</i>
-        <p>Log Out</p>
-    </button>
-    
+  <button
+    mat-icon-button
+    class="example-icon"
+    aria-label="Example icon-button with menu icon"
+  >
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>My Profile</span>
+  <button (click)="onLogOut()">
+    <i class="material-icons">account_circle</i>
+    <p>Log Out</p>
+  </button>
 </mat-toolbar>
 
-<div *ngIf="getLoading();else user_content">
-    Loading....
-</div>
+<div *ngIf="getLoading(); else user_content">Loading....</div>
 
 <ng-template #user_content>
-    <div class="container-class">
-        <mat-card class="card-class"> 
-            <mat-card-header>
-                <mat-card-title *ngIf="userDetails">{{userDetails.name}}</mat-card-title>
-            </mat-card-header>
-            <mat-card-content>
-                <!-- we can get the img src link from stored user like {{this.userDetaiks.img}} but getting CORS issue for the provided link so used downloaded image -->
-                <img src='assets/profile_pic.webp'  alt="profile_pic" />
-                    <div>
-                        <p>{{userDetails?.bio}}</p>
-                    </div>
-            </mat-card-content>
-          </mat-card>
-      </div>
+  <div class="container-class">
+    <mat-card class="card-class">
+      <mat-card-header>
+        <mat-card-title *ngIf="userDetails">{{
+          userDetails.name
+        }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <!-- we can get the img src link from stored user like {{this.userDetaiks.img}} but getting CORS issue for the provided link so used downloaded image -->
+        <img src="assets/profile_pic.webp" alt="profile_pic" />
+        <div>
+          <p>{{ userDetails?.bio }}</p>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </ng-template>
-
-  

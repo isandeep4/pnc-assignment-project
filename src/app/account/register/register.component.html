@@ -1,63 +1,90 @@
 <div class="login-container">
-    <div class="login-content">
+  <div class="login-content">
     <mat-toolbar class="login-toolbar" color="primary">REGISTER</mat-toolbar>
-<mat-card>
-    <form [formGroup]="userRegistrationForm" #formDirective="ngForm" (ngSubmit)="onSubmit(userRegistrationForm)">
+    <mat-card>
+      <form
+        [formGroup]="userRegistrationForm"
+        #formDirective="ngForm"
+        (ngSubmit)="onSubmit(userRegistrationForm)"
+      >
         <div mat-dialog-content class="content">
-            <div class="row">
-                <mat-form-field appearance="fill">
-                    <mat-label>User Name</mat-label>
-                    <input matInput type="text" formControlName="userName">
-                    <mat-error *ngIf="checkValidation('userName')">
-						{{ fieldRequired }}
-          
-					</mat-error>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <mat-form-field appearance="fill">
-                    <mat-label>Email</mat-label>
-                    <input matInput type="email" placeholder="abc@gmail.com" formControlName="email">
-                    <mat-error *ngIf="checkValidation('email')">
-						{{ emaiErrors() }}
-					</mat-error>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <mat-form-field appearance="fill">
-                    <mat-label>Password</mat-label>
-                    <input matInput type="text" placeholder="*****" formControlName="password">
-                    <mat-hint>Choose a password of at least eight characters, one uppercase letter and one number</mat-hint>
-                    <mat-error *ngIf="checkValidation('password')">
-						{{ getErrorPassword() }}
-					</mat-error>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <mat-form-field appearance="fill">
-                    <mat-label>Date Of Birth</mat-label>
-                    <input matInput [matDatepicker]="picker" formControlName="dob">
-                    <mat-hint>MM/DD/YYYY</mat-hint>
-                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                </mat-form-field>
-            </div>
-            <div class="row">
-                <mat-radio-group aria-label="select an option" formControlName="gender" class="padding-left">
-                    <mat-label>Gender</mat-label>
-                    <mat-radio-button value="male">Male</mat-radio-button>
-                    <mat-radio-button value="female">Female</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div class="userFormActions">
-                <button class="submitButton" [disabled]="userRegistrationForm.invalid" type="submit" mat-raised-button color="primary">Submit</button>
-            </div>
-            
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>User Name</mat-label>
+              <input matInput type="text" formControlName="userName" />
+              <mat-error *ngIf="checkValidation('userName')">
+                {{ fieldRequired }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Email</mat-label>
+              <input
+                matInput
+                type="email"
+                placeholder="abc@gmail.com"
+                formControlName="email"
+              />
+              <mat-error *ngIf="checkValidation('email')">
+                {{ emaiErrors() }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Password</mat-label>
+              <input
+                matInput
+                type="text"
+                placeholder="*****"
+                formControlName="password"
+              />
+              <mat-hint
+                >Choose a password of at least eight characters, one uppercase
+                letter and one number</mat-hint
+              >
+              <mat-error *ngIf="checkValidation('password')">
+                {{ getErrorPassword() }}
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-form-field appearance="fill">
+              <mat-label>Date Of Birth</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="dob" />
+              <mat-hint>MM/DD/YYYY</mat-hint>
+              <mat-datepicker-toggle
+                matIconSuffix
+                [for]="picker"
+              ></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <mat-radio-group
+              aria-label="select an option"
+              formControlName="gender"
+              class="padding-left"
+            >
+              <mat-label>Gender</mat-label>
+              <mat-radio-button value="male">Male</mat-radio-button>
+              <mat-radio-button value="female">Female</mat-radio-button>
+            </mat-radio-group>
+          </div>
+          <div class="userFormActions">
+            <button
+              class="submitButton"
+              [disabled]="userRegistrationForm.invalid"
+              type="submit"
+              mat-raised-button
+              color="primary"
+            >
+              Submit
+            </button>
+          </div>
         </div>
-    </form>
-</mat-card>
+      </form>
+    </mat-card>
+  </div>
 </div>
-</div>
-
-
-

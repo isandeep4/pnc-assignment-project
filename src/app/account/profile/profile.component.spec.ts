@@ -16,35 +16,42 @@ describe('ProfileComponent', () => {
   let router: Router;
 
   let mockAuthService = {
-    authenticatedUser:false,
-    getUserDetails: (): any => {return { subscribe: () => {} }},
-    setAuthenticated: (): any => { }
-  }
+    authenticatedUser: false,
+    getUserDetails: (): any => {
+      return { subscribe: () => {} };
+    },
+    setAuthenticated: (): any => {},
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, MatToolbarModule, MatIconModule, MatCardModule, MatFormFieldModule],
-      declarations: [ProfileComponent],
-      providers: [
-        { provide: AuthService, useValue: mockAuthService  }
+      imports: [
+        HttpClientTestingModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
       ],
+      declarations: [ProfileComponent],
+      providers: [{ provide: AuthService, useValue: mockAuthService }],
     });
     fixture = TestBed.createComponent(ProfileComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     router = TestBed.inject(Router);
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
   it('get user details on ngOnInit', () => {
-    const mySpy = spyOn(mockAuthService , 'getUserDetails').and.returnValue(of({
-      name: 'sandeep',
-      email: 'sandeep@gmail.com',
-      img: 'url',
-      bio: 'bio',
-    }))
+    const mySpy = spyOn(mockAuthService, 'getUserDetails').and.returnValue(
+      of({
+        name: 'sandeep',
+        email: 'sandeep@gmail.com',
+        img: 'url',
+        bio: 'bio',
+      })
+    );
     component.ngOnInit();
     expect(mySpy).toHaveBeenCalledTimes(1);
   });
@@ -53,5 +60,5 @@ describe('ProfileComponent', () => {
     const setAuthenticatedSpy = spyOn(mockAuthService, 'setAuthenticated');
     component.onLogOut();
     expect(navigateSpy).toHaveBeenCalledWith(['/']);
-  })
+  });
 });

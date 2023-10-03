@@ -9,28 +9,24 @@ export interface User {
   email: String;
   img: String;
   bio: String;
-};
+}
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.css']
+  styleUrls: ['./profile.component.css'],
 })
-
-export class ProfileComponent implements OnInit{
-
-  userDetails?:User;
-  displayImage:any;
+export class ProfileComponent implements OnInit {
+  userDetails?: User;
+  displayImage: any;
   private loading: boolean = false;
 
-
-  constructor(private authService: AuthService, private router: Router){
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
     this.setLoading(true);
-    this.authService.getUserDetails().subscribe((response: User)=>{
-      this.userDetails = response;        
+    this.authService.getUserDetails().subscribe((response: User) => {
+      this.userDetails = response;
       this.setLoading(false);
     });
   }

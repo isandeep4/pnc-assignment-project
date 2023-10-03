@@ -6,13 +6,17 @@ import { AuthGuard } from './auth/auth.guard';
 import { RegistrationAuthGuardGuard } from './auth/registration-auth-guard.guard';
 
 const routes: Routes = [
-  {path: '', component: RegisterComponent, canActivate: [RegistrationAuthGuardGuard] },
-  {path:'profile', component: ProfileComponent, canActivate: [ AuthGuard ] },
+  {
+    path: '',
+    component: RegisterComponent,
+    canActivate: [RegistrationAuthGuardGuard],
+  },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
-  providers: [ AuthGuard ]
+  providers: [AuthGuard],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

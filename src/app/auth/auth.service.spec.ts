@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AuthService } from './auth.service';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { registerApiUrl } from '../constants';
 
@@ -32,7 +35,7 @@ describe('AuthService', () => {
       email: 'sandeep@example.com',
       password: 'Sandy12345',
       dob: '2000-01-01',
-      gender: 'male'
+      gender: 'male',
     };
 
     service.registerUser(form).subscribe();
@@ -42,12 +45,11 @@ describe('AuthService', () => {
   it('should return authenticated status', () => {
     service.authenticated$.next(true);
     const isAuthenticated = service.isAuthenticatedSubject().value;
-    expect(isAuthenticated).toEqual(true)
-    
+    expect(isAuthenticated).toEqual(true);
   });
   it('should return user details', () => {
-    service.getUserDetails().subscribe((data)=>{
+    service.getUserDetails().subscribe((data) => {
       expect(data).toEqual(mockData);
-    })
-  })
+    });
+  });
 });
