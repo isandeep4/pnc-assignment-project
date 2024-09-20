@@ -1,4 +1,4 @@
-# PNC Assignment Project
+# Angular AuthGaurd Project
 
 - Created Angular App using angular-cli
 - Configured the App with Angular material  
